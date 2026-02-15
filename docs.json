@@ -26,6 +26,7 @@
               "sdk/overview",
               "sdk/save-documents",
               "sdk/read-documents",
+              "sdk/search-documents",
               "sdk/folders",
               "sdk/versioning",
               "sdk/delete-documents"
@@ -69,6 +70,7 @@
             "pages": [
               "api-reference/documents/create",
               "api-reference/documents/get",
+              "api-reference/documents/search",
               "api-reference/documents/delete"
             ]
           },

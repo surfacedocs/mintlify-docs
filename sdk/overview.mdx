@@ -20,6 +20,7 @@ pip install surfacedocs
 | `DOCUMENT_SCHEMA` | dict | JSON schema for LLM structured output (generic) |
 | `OPENAI_DOCUMENT_SCHEMA` | dict | Schema compatible with OpenAI strict mode |
 | `GEMINI_DOCUMENT_SCHEMA` | dict | Schema compatible with Google Gemini's `response_schema` |
+| `SearchResult` | dataclass | A document search result |
 | `VersionResult` | dataclass | Result from pushing or restoring a version |
 | `VersionSummary` | dataclass | Summary of a document version |
 
@@ -52,6 +53,7 @@ client = SurfaceDocs()
 | [`save(content, folder_id=None)`](/sdk/save-documents#save) | Save a document from LLM JSON output |
 | [`save_raw(title, blocks, ...)`](/sdk/save-documents#save_raw) | Save a document with explicit parameters |
 | [`get_document(document_id)`](/sdk/read-documents) | Retrieve a document by ID |
+| [`search_documents(query, tag, ...)`](/sdk/search-documents) | Search documents by title or tag |
 | [`delete_document(document_id)`](/sdk/delete-documents) | Delete a document by ID |
 | [`create_folder(name, parent_id=None)`](/sdk/folders#create-a-folder) | Create a new folder |
 | [`list_folders(parent_id=None)`](/sdk/folders#list-folders) | List folders |
