@@ -105,7 +105,7 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/GallagherSam/surfacedocs"
+        "href": "https://github.com/surfacedocs/surfacedocs-python"
       }
     ],
     "primary": {
@@ -116,7 +116,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/GallagherSam/surfacedocs",
+      "github": "https://github.com/surfacedocs/surfacedocs-python",
       "website": "https://dev.to/surfacedocs"
     }
   }
