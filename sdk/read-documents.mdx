@@ -1,0 +1,60 @@
+---
+title: Read Documents
+description: Retrieve documents with get_document()
+---
+
+# Read Documents
+
+## get_document()
+
+Retrieve a document and its blocks by ID.
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+doc = docs.get_document("doc_abc123")
+print(doc.title)
+print(doc.url)
+
+for block in doc.blocks:
+    print(f"[{block.type}] {block.content[:50]}")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document ID to retrieve |
+
+**Returns:** [`Document`](#document)
+
+**Raises:** `DocumentNotFoundError` if the document doesn't exist.
+
+## Document
+
+```python
+doc.id            # "doc_abc123"
+doc.url           # "https://app.surfacedocs.dev/d/doc_abc123"
+doc.folder_id     # "fld_xyz"
+doc.title         # "My Document"
+doc.content_type  # "markdown"
+doc.visibility    # "private"
+doc.blocks        # list[Block]
+doc.metadata      # dict or None
+doc.created_at    # "2024-01-01T00:00:00Z"
+doc.updated_at    # "2024-01-02T00:00:00Z"
+```
+
+## Block
+
+Each document contains a list of `Block` objects:
+
+```python
+block.id        # "blk_abc123"
+block.order     # 0
+block.type      # "heading", "paragraph", "code", etc.
+block.content   # "Hello world"
+block.metadata  # {"level": 1} or None
+```

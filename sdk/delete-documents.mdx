@@ -1,0 +1,49 @@
+---
+title: Delete Documents
+description: Remove documents with delete_document()
+---
+
+# Delete Documents
+
+## delete_document()
+
+Delete a document and all its blocks by ID.
+
+```python
+from surfacedocs import SurfaceDocs, DocumentNotFoundError
+
+docs = SurfaceDocs()
+
+docs.delete_document("doc_abc123")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document ID to delete |
+
+**Returns:** `None`
+
+**Raises:** `DocumentNotFoundError` if the document doesn't exist.
+
+## Example: save, read, delete
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+# Save
+result = docs.save_raw(
+    title="Temp Report",
+    blocks=[{"type": "paragraph", "content": "This is temporary."}],
+)
+
+# Read
+doc = docs.get_document(result.id)
+print(doc.title)  # "Temp Report"
+
+# Delete
+docs.delete_document(result.id)
+```

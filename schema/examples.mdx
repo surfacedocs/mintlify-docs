@@ -1,0 +1,65 @@
+---
+title: Document Examples
+description: Full JSON examples of SurfaceDocs documents
+---
+
+# Document Examples
+
+## Minimal document
+
+```json
+{
+  "title": "Hello World",
+  "blocks": [
+    {"type": "paragraph", "content": "This is a minimal document."}
+  ]
+}
+```
+
+## Technical documentation
+
+```json
+{
+  "title": "API Authentication Guide",
+  "metadata": {
+    "source": "docs-agent",
+    "tags": ["api", "auth"]
+  },
+  "blocks": [
+    {"type": "heading", "content": "Authentication", "metadata": {"level": 1}},
+    {"type": "paragraph", "content": "All API requests require a Bearer token in the Authorization header."},
+    {"type": "heading", "content": "Getting a Token", "metadata": {"level": 2}},
+    {"type": "paragraph", "content": "Send a POST request to `/auth/token` with your credentials:"},
+    {"type": "code", "content": "curl -X POST https://api.example.com/auth/token \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"email\": \"user@example.com\", \"password\": \"...\"}'", "metadata": {"language": "bash"}},
+    {"type": "heading", "content": "Using the Token", "metadata": {"level": 2}},
+    {"type": "paragraph", "content": "Include the token in subsequent requests:"},
+    {"type": "code", "content": "curl https://api.example.com/users/me \\\n  -H 'Authorization: Bearer eyJhbG...'", "metadata": {"language": "bash"}},
+    {"type": "heading", "content": "Error Codes", "metadata": {"level": 2}},
+    {"type": "table", "content": "| Code | Meaning |\n|------|---------|\n| 401 | Invalid or expired token |\n| 403 | Insufficient permissions |"},
+    {"type": "divider", "content": ""},
+    {"type": "quote", "content": "Tokens expire after 24 hours. Use the refresh endpoint to get a new one."}
+  ]
+}
+```
+
+## Report with mixed content
+
+```json
+{
+  "title": "Weekly Performance Report",
+  "metadata": {
+    "source": "analytics-pipeline",
+    "tags": ["report", "weekly"]
+  },
+  "blocks": [
+    {"type": "heading", "content": "Summary", "metadata": {"level": 1}},
+    {"type": "paragraph", "content": "This report covers the period **Feb 3–9, 2025**."},
+    {"type": "heading", "content": "Key Metrics", "metadata": {"level": 2}},
+    {"type": "table", "content": "| Metric | This Week | Last Week | Change |\n|--------|-----------|-----------|--------|\n| Requests | 1.2M | 1.1M | +9% |\n| Latency (p99) | 120ms | 145ms | -17% |\n| Error Rate | 0.02% | 0.05% | -60% |"},
+    {"type": "heading", "content": "Highlights", "metadata": {"level": 2}},
+    {"type": "list", "content": "- Deployed new caching layer — p99 latency dropped 17%\n- Error rate at all-time low\n- Traffic growing steadily", "metadata": {"listType": "bullet"}},
+    {"type": "heading", "content": "Action Items", "metadata": {"level": 2}},
+    {"type": "list", "content": "1. Investigate remaining timeout errors\n2. Scale read replicas before next traffic spike\n3. Update alerting thresholds", "metadata": {"listType": "ordered"}}
+  ]
+}
+```

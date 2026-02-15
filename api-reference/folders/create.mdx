@@ -1,0 +1,58 @@
+---
+title: Create Folder
+description: POST /v1/folders
+---
+
+# Create Folder
+
+```
+POST /v1/folders
+```
+
+Create a new folder. Requires the `folders:write` role.
+
+## Request
+
+### Headers
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `X-API-Key` | Yes | Your API key |
+| `Content-Type` | Yes | `application/json` |
+
+### Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Folder name |
+| `parent_id` | string | No | Parent folder ID for nesting |
+
+### Example
+
+```bash
+curl -X POST https://api.surfacedocs.dev/v1/folders \
+  -H "X-API-Key: sd_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Engineering"}'
+```
+
+## Response
+
+**Status: 201 Created**
+
+```json
+{
+  "id": "fld_abc123",
+  "name": "Engineering",
+  "parent_id": null,
+  "path": "/Engineering",
+  "depth": 0,
+  "created_at": "2025-01-15T10:30:00Z"
+}
+```
+
+## Errors
+
+| Code | Description |
+|------|-------------|
+| 404 | Parent folder not found |

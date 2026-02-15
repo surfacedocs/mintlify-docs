@@ -1,0 +1,109 @@
+---
+title: Block Types
+description: All supported block types and their metadata options
+---
+
+# Block Types
+
+Documents are composed of blocks. Each block has a `type`, `content`, and optional `metadata`.
+
+## heading
+
+Section header. **Always include `metadata.level`.**
+
+```json
+{"type": "heading", "content": "Getting Started", "metadata": {"level": 1}}
+{"type": "heading", "content": "Installation", "metadata": {"level": 2}}
+{"type": "heading", "content": "Prerequisites", "metadata": {"level": 3}}
+```
+
+| Metadata | Type | Required | Description |
+|----------|------|----------|-------------|
+| `level` | int | Yes | Heading level, 1–6. Use proper hierarchy (don't skip levels). |
+
+## paragraph
+
+Body text with inline markdown.
+
+```json
+{"type": "paragraph", "content": "Use **bold**, *italic*, `code`, and [links](https://example.com)."}
+```
+
+No metadata options.
+
+## code
+
+Code block with optional syntax highlighting.
+
+```json
+{"type": "code", "content": "print('hello world')", "metadata": {"language": "python"}}
+```
+
+| Metadata | Type | Required | Description |
+|----------|------|----------|-------------|
+| `language` | string | No | Language for syntax highlighting (e.g., `python`, `javascript`, `bash`) |
+
+## list
+
+Bullet or numbered list. Content uses markdown list syntax.
+
+```json
+{"type": "list", "content": "- Item one\n- Item two\n- Item three", "metadata": {"listType": "bullet"}}
+{"type": "list", "content": "1. First\n2. Second\n3. Third", "metadata": {"listType": "ordered"}}
+```
+
+| Metadata | Type | Required | Description |
+|----------|------|----------|-------------|
+| `listType` | string | No | `"bullet"` or `"ordered"` |
+
+## quote
+
+Block quote.
+
+```json
+{"type": "quote", "content": "The best way to predict the future is to invent it."}
+```
+
+No metadata options.
+
+## table
+
+Markdown-formatted table.
+
+```json
+{"type": "table", "content": "| Name | Role |\n|------|------|\n| Alice | Admin |\n| Bob | User |"}
+```
+
+No metadata options.
+
+## image
+
+Image block.
+
+```json
+{"type": "image", "content": "", "metadata": {"url": "https://example.com/diagram.png", "alt": "System architecture"}}
+```
+
+| Metadata | Type | Required | Description |
+|----------|------|----------|-------------|
+| `url` | string | Yes | Image URL |
+| `alt` | string | No | Alt text |
+
+## divider
+
+Horizontal rule. Content should be an empty string.
+
+```json
+{"type": "divider", "content": ""}
+```
+
+No metadata options.
+
+## Inline Markdown
+
+Text content in `paragraph`, `heading`, `list`, and `quote` blocks supports inline markdown:
+
+- `**bold**` → **bold**
+- `*italic*` → *italic*
+- `` `code` `` → `code`
+- `[link](url)` → [link](url)

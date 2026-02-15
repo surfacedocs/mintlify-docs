@@ -1,68 +1,71 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "SurfaceDocs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3b82f6",
+    "light": "#60a5fa",
+    "dark": "#2563eb"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
+            "pages": ["index", "quickstart"]
+          },
+          {
+            "group": "Python SDK",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "sdk/overview",
+              "sdk/save-documents",
+              "sdk/read-documents",
+              "sdk/folders",
+              "sdk/delete-documents"
             ]
           },
           {
-            "group": "Customization",
+            "group": "LLM Providers",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "providers/openai",
+              "providers/gemini",
+              "providers/anthropic",
+              "providers/any-llm"
             ]
           },
           {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
+            "group": "Document Schema",
+            "pages": ["schema/block-types", "schema/examples"]
           },
           {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
+            "group": "Pricing",
+            "pages": ["pricing"]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
+            "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "Documents",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/documents/create",
+              "api-reference/documents/get",
+              "api-reference/documents/delete"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Folders",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/folders/create",
+              "api-reference/folders/list"
             ]
           }
         ]
@@ -71,13 +74,8 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://dev.to/surfacedocs",
           "icon": "newspaper"
         }
       ]
@@ -90,33 +88,20 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "GitHub",
+        "href": "https://github.com/GallagherSam/surfacedocs"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "https://app.surfacedocs.dev"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/GallagherSam/surfacedocs",
+      "website": "https://dev.to/surfacedocs"
     }
   }
 }

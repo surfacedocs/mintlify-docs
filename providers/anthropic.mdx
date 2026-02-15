@@ -1,0 +1,48 @@
+---
+title: Anthropic
+description: Generate documents with Claude using tool use
+---
+
+# Anthropic
+
+Claude supports structured output via tool use. Pass `DOCUMENT_SCHEMA` as a tool's `input_schema` and force the model to use it with `tool_choice`.
+
+```python
+from surfacedocs import SurfaceDocs, DOCUMENT_SCHEMA, SYSTEM_PROMPT
+import anthropic
+
+client = anthropic.Anthropic()
+docs = SurfaceDocs()
+
+response = client.messages.create(
+    model="claude-sonnet-4-20250514",
+    max_tokens=4096,
+    system=SYSTEM_PROMPT,
+    messages=[
+        {"role": "user", "content": "Write documentation for user authentication"},
+    ],
+    tools=[{
+        "name": "create_document",
+        "description": "Create a structured document",
+        "input_schema": DOCUMENT_SCHEMA,
+    }],
+    tool_choice={"type": "tool", "name": "create_document"},
+)
+
+# Extract the tool use block
+tool_use = next(b for b in response.content if b.type == "tool_use")
+result = docs.save(tool_use.input)
+print(f"Saved: {result.url}")
+```
+
+<Note>
+  Claude doesn't have a native `response_format` like OpenAI. Instead, we use tool use to enforce the schema. Setting `tool_choice` to the specific tool name guarantees Claude will output in the correct format.
+</Note>
+
+## How it works
+
+1. `SYSTEM_PROMPT` tells Claude about the document format
+2. `DOCUMENT_SCHEMA` is passed as a tool's input schema
+3. `tool_choice` forces Claude to call the tool (guaranteeing structured output)
+4. The tool use block's `input` contains the document data
+5. Pass it directly to `docs.save()`

@@ -1,0 +1,59 @@
+---
+title: Any LLM
+description: Use SYSTEM_PROMPT with any model that supports text output
+---
+
+# Any LLM
+
+For models without native structured output support, use `SYSTEM_PROMPT` to instruct the model to return JSON in the correct format.
+
+```python
+from surfacedocs import SurfaceDocs, SYSTEM_PROMPT
+
+docs = SurfaceDocs()
+
+# Use SYSTEM_PROMPT with any LLM that accepts a system message
+messages = [
+    {"role": "system", "content": SYSTEM_PROMPT},
+    {"role": "user", "content": "Write documentation for user authentication"},
+]
+
+# Call your LLM however you normally would
+response = your_llm_client.chat(messages)
+
+# The LLM will return JSON matching the document schema
+result = docs.save(response.text)
+print(f"Saved: {result.url}")
+```
+
+## What SYSTEM_PROMPT contains
+
+The prompt instructs the LLM to:
+
+1. Output a JSON object with `title` and `blocks`
+2. Use the correct block types (`heading`, `paragraph`, `code`, `list`, `quote`, `table`, `image`, `divider`)
+3. Include proper metadata (e.g., `level` for headings, `language` for code blocks)
+4. Use markdown formatting within text content
+
+## Manual documents
+
+You can also skip the LLM entirely and build documents programmatically:
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+result = docs.save_raw(
+    title="Meeting Notes",
+    blocks=[
+        {"type": "heading", "content": "Action Items", "metadata": {"level": 1}},
+        {"type": "list", "content": "- Review PR #123\n- Update docs", "metadata": {"listType": "bullet"}},
+        {"type": "divider", "content": ""},
+        {"type": "paragraph", "content": "Next meeting: Monday 10am"},
+    ],
+    metadata={"source": "meeting-bot"},
+)
+
+print(f"Saved: {result.url}")
+```

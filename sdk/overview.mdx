@@ -1,0 +1,73 @@
+---
+title: SDK Overview
+description: What's included in the surfacedocs Python package
+---
+
+# Python SDK Overview
+
+The `surfacedocs` package provides everything you need to save LLM-generated documents.
+
+```bash
+pip install surfacedocs
+```
+
+## Exports
+
+| Export | Type | Purpose |
+|--------|------|---------|
+| `SurfaceDocs` | class | HTTP client for saving, reading, and managing documents |
+| `SYSTEM_PROMPT` | str | Instructions for LLMs to generate documents in the correct format |
+| `DOCUMENT_SCHEMA` | dict | JSON schema for LLM structured output (generic) |
+| `OPENAI_DOCUMENT_SCHEMA` | dict | Schema compatible with OpenAI strict mode |
+| `GEMINI_DOCUMENT_SCHEMA` | dict | Schema compatible with Google Gemini's `response_schema` |
+
+```python
+from surfacedocs import (
+    SurfaceDocs,
+    SYSTEM_PROMPT,
+    DOCUMENT_SCHEMA,
+    OPENAI_DOCUMENT_SCHEMA,
+    GEMINI_DOCUMENT_SCHEMA,
+)
+```
+
+## Initialization
+
+```python
+from surfacedocs import SurfaceDocs
+
+# Pass API key directly
+client = SurfaceDocs(api_key="sd_live_...")
+
+# Or use the SURFACEDOCS_API_KEY environment variable
+client = SurfaceDocs()
+```
+
+## Methods
+
+| Method | Description |
+|--------|-------------|
+| [`save(content, folder_id=None)`](/sdk/save-documents#save) | Save a document from LLM JSON output |
+| [`save_raw(title, blocks, ...)`](/sdk/save-documents#save_raw) | Save a document with explicit parameters |
+| [`get_document(document_id)`](/sdk/read-documents) | Retrieve a document by ID |
+| [`delete_document(document_id)`](/sdk/delete-documents) | Delete a document by ID |
+| [`create_folder(name, parent_id=None)`](/sdk/folders#create-a-folder) | Create a new folder |
+| [`list_folders(parent_id=None)`](/sdk/folders#list-folders) | List folders |
+
+## Error Handling
+
+```python
+from surfacedocs import (
+    SurfaceDocsError,      # Base error
+    AuthenticationError,   # Invalid API key
+    ValidationError,       # Invalid document format
+    DocumentNotFoundError, # Document doesn't exist
+    FolderNotFoundError,   # Folder doesn't exist
+)
+```
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `SURFACEDOCS_API_KEY` | API key (alternative to passing in constructor) |

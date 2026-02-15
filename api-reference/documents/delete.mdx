@@ -1,0 +1,46 @@
+---
+title: Delete Document
+description: DELETE /v1/documents/{id}
+---
+
+# Delete Document
+
+```
+DELETE /v1/documents/{document_id}
+```
+
+Delete a document and all its blocks. Requires the `documents:write` role.
+
+## Request
+
+### Headers
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `X-API-Key` | Yes | Your API key |
+
+### Path Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `document_id` | string | The document ID |
+
+### Example
+
+```bash
+curl -X DELETE https://api.surfacedocs.dev/v1/documents/doc_abc123 \
+  -H "X-API-Key: sd_live_..."
+```
+
+## Response
+
+**Status: 204 No Content**
+
+No response body.
+
+## Errors
+
+| Code | Description |
+|------|-------------|
+| 404 | Document not found |
+| 403 | Access denied (not the document owner) |

@@ -1,0 +1,61 @@
+---
+title: Pricing
+description: Free and Pro plan comparison
+---
+
+# Pricing
+
+<CardGroup cols={2}>
+  <Card title="Free" icon="user">
+    **$0/month**
+
+    Get started with SurfaceDocs at no cost.
+
+    - 10 documents per month
+    - 20 requests/minute rate limit
+    - 1,000 requests/day rate limit
+    - Unlimited folders
+    - API key access
+  </Card>
+  <Card title="Pro" icon="rocket">
+    **Pro plan**
+
+    For teams and production pipelines.
+
+    - 1,000 documents per month
+    - 300 requests/minute rate limit
+    - 50,000 requests/day rate limit
+    - Folder sharing
+    - Priority support
+  </Card>
+</CardGroup>
+
+## Plan comparison
+
+| Feature | Free | Pro |
+|---------|------|-----|
+| Documents per month | 10 | 1,000 |
+| Rate limit (per minute) | 20 | 300 |
+| Rate limit (per day) | 1,000 | 50,000 |
+| Folders | ✅ | ✅ |
+| Folder sharing | ❌ | ✅ |
+| API access | ✅ | ✅ |
+
+## Quotas
+
+Document quotas reset on the 1st of each month. Usage is tracked per account, not per API key.
+
+Rate limit headers are included in every API response:
+
+```
+X-RateLimit-Limit: 20
+X-RateLimit-Remaining: 19
+X-RateLimit-Reset: 1706745600
+X-Quota-Used: 3
+X-Quota-Limit: 10
+X-Quota-Reset: 2025-03-01
+```
+
+<Card title="Upgrade to Pro" icon="arrow-up-right" href="https://app.surfacedocs.dev/settings/billing">
+  Manage your plan in the SurfaceDocs dashboard.
+</Card>

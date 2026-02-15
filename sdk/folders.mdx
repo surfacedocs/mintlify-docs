@@ -1,0 +1,79 @@
+---
+title: Folders
+description: Organize documents with create_folder() and list_folders()
+---
+
+# Folders
+
+## Create a folder
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+# Create a root folder
+folder = docs.create_folder("Engineering")
+print(folder.id)    # "fld_abc123"
+print(folder.name)  # "Engineering"
+
+# Create a subfolder
+subfolder = docs.create_folder("Backend", parent_id=folder.id)
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `str` | Yes | Folder name |
+| `parent_id` | `str` | No | Parent folder ID for nesting |
+
+**Returns:** [`Folder`](#folder-model)
+
+**Raises:** `FolderNotFoundError` if `parent_id` doesn't exist.
+
+## List folders
+
+```python
+# List all root folders
+folders = docs.list_folders()
+
+# List subfolders of a specific folder
+subfolders = docs.list_folders(parent_id="fld_abc123")
+
+for folder in folders:
+    print(f"{folder.name} ({folder.path})")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `parent_id` | `str` | No | Filter by parent folder |
+
+**Returns:** `list[Folder]`
+
+## Save to a folder
+
+Pass `folder_id` to `save()` or `save_raw()`:
+
+```python
+result = docs.save(content, folder_id=folder.id)
+
+result = docs.save_raw(
+    title="Architecture Overview",
+    blocks=[{"type": "paragraph", "content": "Our system uses..."}],
+    folder_id=subfolder.id,
+)
+```
+
+## Folder model
+
+```python
+folder.id         # "fld_abc123"
+folder.name       # "Engineering"
+folder.parent_id  # "fld_parent" or None
+folder.path       # "/Engineering"
+folder.depth      # 0
+folder.created_at # "2024-01-01T00:00:00Z"
+```

@@ -1,0 +1,74 @@
+---
+title: Save Documents
+description: Save LLM output as hosted documents with save() and save_raw()
+---
+
+# Save Documents
+
+## save()
+
+Save a document from LLM output. Accepts a JSON string or a dict.
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+# From a JSON string (e.g., direct LLM output)
+result = docs.save(response.choices[0].message.content)
+
+# From a dict
+result = docs.save({
+    "title": "My Document",
+    "blocks": [{"type": "paragraph", "content": "Hello world"}]
+})
+
+# Save to a specific folder
+result = docs.save(content, folder_id="fld_abc123")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `content` | `str` or `dict` | Yes | JSON string or dict with `title` and `blocks` |
+| `folder_id` | `str` | No | Target folder ID. Uses root folder if omitted. |
+
+**Returns:** [`SaveResult`](#saveresult)
+
+## save_raw()
+
+Save a document with explicit parameters instead of parsing LLM output.
+
+```python
+result = docs.save_raw(
+    title="API Documentation",
+    blocks=[
+        {"type": "heading", "content": "Authentication", "metadata": {"level": 1}},
+        {"type": "paragraph", "content": "Use Bearer tokens for auth."},
+        {"type": "code", "content": "curl -H 'Authorization: Bearer ...'", "metadata": {"language": "bash"}},
+    ],
+    metadata={"source": "doc-generator", "version": "1.0"},
+)
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `title` | `str` | Yes | Document title |
+| `blocks` | `list[dict]` | Yes | List of content blocks |
+| `folder_id` | `str` | No | Target folder ID |
+| `metadata` | `dict` | No | Document-level metadata (source, tags, etc.) |
+
+**Returns:** [`SaveResult`](#saveresult)
+
+## SaveResult
+
+Both `save()` and `save_raw()` return a `SaveResult`:
+
+```python
+result.id        # "doc_abc123"
+result.url       # "https://app.surfacedocs.dev/d/doc_abc123"
+result.folder_id # "fld_xyz"
+```

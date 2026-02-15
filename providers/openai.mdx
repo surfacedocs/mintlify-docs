@@ -1,0 +1,66 @@
+---
+title: OpenAI
+description: Generate documents with OpenAI's structured output
+---
+
+# OpenAI
+
+OpenAI supports native JSON schema enforcement via `response_format`. Use `OPENAI_DOCUMENT_SCHEMA` for strict mode compatibility, or `DOCUMENT_SCHEMA` for standard mode.
+
+## With strict mode (recommended)
+
+```python
+from surfacedocs import SurfaceDocs, OPENAI_DOCUMENT_SCHEMA, SYSTEM_PROMPT
+from openai import OpenAI
+
+openai = OpenAI()
+docs = SurfaceDocs()
+
+response = openai.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": "Write documentation for user authentication"},
+    ],
+    response_format={
+        "type": "json_schema",
+        "json_schema": {
+            "name": "surfacedocs_document",
+            "strict": True,
+            "schema": OPENAI_DOCUMENT_SCHEMA,
+        },
+    },
+)
+
+result = docs.save(response.choices[0].message.content)
+print(f"Saved: {result.url}")
+```
+
+<Note>
+  `OPENAI_DOCUMENT_SCHEMA` sets `additionalProperties: false` and marks all fields as required, which OpenAI's strict mode requires. Use `DOCUMENT_SCHEMA` if you don't need strict mode.
+</Note>
+
+## With standard mode
+
+```python
+from surfacedocs import SurfaceDocs, DOCUMENT_SCHEMA, SYSTEM_PROMPT
+from openai import OpenAI
+
+openai = OpenAI()
+docs = SurfaceDocs()
+
+response = openai.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": "Document the REST API authentication flow"},
+    ],
+    response_format={
+        "type": "json_schema",
+        "json_schema": {"name": "document", "schema": DOCUMENT_SCHEMA},
+    },
+)
+
+result = docs.save(response.choices[0].message.content)
+print(f"Saved: {result.url}")
+```

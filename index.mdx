@@ -1,97 +1,47 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: SurfaceDocs
+description: The output layer for AI pipelines
 ---
 
-## Setting up
+# The output layer for AI pipelines
 
-Get your documentation site up and running in minutes.
+SurfaceDocs turns AI-generated content into shareable, hosted documents. One API call, instant URL, zero infrastructure.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+```bash
+pip install surfacedocs
+```
 
-## Make it yours
+```python
+from surfacedocs import SurfaceDocs, DOCUMENT_SCHEMA, SYSTEM_PROMPT
 
-Design a docs site that looks great and empowers your users.
+docs = SurfaceDocs(api_key="sd_live_...")
+result = docs.save(llm_output)
+print(result.url)  # https://app.surfacedocs.dev/d/abc123
+```
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={3}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Install the SDK and save your first document in under 5 minutes.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Python SDK" icon="python" href="/sdk/overview">
+    Full reference for the SurfaceDocs Python client.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    REST API endpoints for documents and folders.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Why SurfaceDocs?
 
-Everything you need to create world-class documentation.
+Every AI pipeline ends the same way: the model generates something valuable, and then you need to figure out where to put it.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+SurfaceDocs gives you:
 
-## Need inspiration?
+- **Instant shareable URLs** — `docs.save(output)` returns a link anyone can view
+- **No infrastructure** — No viewers to build, no hosting to manage
+- **Built for AI output** — Block-based schema that matches how LLMs think
+- **Works with any LLM** — OpenAI, Gemini, Anthropic, or any model
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
+<Card title="Get your API key" icon="key" href="https://app.surfacedocs.dev">
+  Sign up at app.surfacedocs.dev to get started.
 </Card>

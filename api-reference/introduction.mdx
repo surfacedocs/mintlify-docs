@@ -1,33 +1,66 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: API Reference
+description: REST API for SurfaceDocs
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+# API Reference
 
-## Welcome
+The SurfaceDocs REST API lets you create, read, and delete documents and manage folders.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Base URL
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://api.surfacedocs.dev
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All requests require an API key passed in the `X-API-Key` header:
+
+```bash
+curl https://api.surfacedocs.dev/v1/documents/doc_abc123 \
+  -H "X-API-Key: sd_live_..."
+```
+
+Get your API key from [app.surfacedocs.dev](https://app.surfacedocs.dev).
+
+## Rate Limits
+
+Rate limits depend on your plan:
+
+| Plan | Per Minute | Per Day |
+|------|-----------|---------|
+| Free | 20 | 1,000 |
+| Pro | 300 | 50,000 |
+
+Every response includes rate limit headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Requests allowed per minute |
+| `X-RateLimit-Remaining` | Requests remaining this minute |
+| `X-RateLimit-Reset` | Unix timestamp when the limit resets |
+
+When rate limited, you'll receive a `429` response with a `Retry-After` header.
+
+## Errors
+
+All errors return a consistent JSON format:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid document format",
+    "details": {}
   }
-]
+}
 ```
+
+| HTTP Code | Description |
+|-----------|-------------|
+| 400 | Validation error |
+| 401 | Invalid or missing API key |
+| 403 | Insufficient permissions |
+| 404 | Resource not found |
+| 429 | Rate limit exceeded |

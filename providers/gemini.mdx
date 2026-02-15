@@ -1,0 +1,45 @@
+---
+title: Google Gemini
+description: Generate documents with Gemini's structured output
+---
+
+# Google Gemini
+
+Gemini supports structured output via `response_schema`. Use `GEMINI_DOCUMENT_SCHEMA` which omits `additionalProperties` (unsupported by Gemini).
+
+```python
+from surfacedocs import SurfaceDocs, GEMINI_DOCUMENT_SCHEMA, SYSTEM_PROMPT
+import google.generativeai as genai
+
+genai.configure(api_key="...")
+docs = SurfaceDocs()
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash",
+    system_instruction=SYSTEM_PROMPT,
+    generation_config=genai.GenerationConfig(
+        response_mime_type="application/json",
+        response_schema=GEMINI_DOCUMENT_SCHEMA,
+    ),
+)
+
+response = model.generate_content("Write documentation for user authentication")
+result = docs.save(response.text)
+print(f"Saved: {result.url}")
+```
+
+<Note>
+  `GEMINI_DOCUMENT_SCHEMA` is specifically designed for Gemini — it removes `additionalProperties` fields that Gemini doesn't support and uses explicit metadata property definitions.
+</Note>
+
+## Why a separate schema?
+
+Gemini's structured output has different constraints than OpenAI:
+
+| Feature | OpenAI | Gemini |
+|---------|--------|--------|
+| `additionalProperties` | Required for strict mode | Not supported |
+| Nullable types | `"type": ["string", "null"]` | Not needed |
+| All fields required | Yes (strict mode) | No |
+
+The `GEMINI_DOCUMENT_SCHEMA` handles these differences so you don't have to.
