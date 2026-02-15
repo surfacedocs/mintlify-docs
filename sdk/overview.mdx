@@ -15,11 +15,13 @@ pip install surfacedocs
 
 | Export | Type | Purpose |
 |--------|------|---------|
-| `SurfaceDocs` | class | HTTP client for saving, reading, and managing documents |
+| `SurfaceDocs` | class | HTTP client for saving, reading, versioning, and managing documents |
 | `SYSTEM_PROMPT` | str | Instructions for LLMs to generate documents in the correct format |
 | `DOCUMENT_SCHEMA` | dict | JSON schema for LLM structured output (generic) |
 | `OPENAI_DOCUMENT_SCHEMA` | dict | Schema compatible with OpenAI strict mode |
 | `GEMINI_DOCUMENT_SCHEMA` | dict | Schema compatible with Google Gemini's `response_schema` |
+| `VersionResult` | dataclass | Result from pushing or restoring a version |
+| `VersionSummary` | dataclass | Summary of a document version |
 
 ```python
 from surfacedocs import (
@@ -53,6 +55,11 @@ client = SurfaceDocs()
 | [`delete_document(document_id)`](/sdk/delete-documents) | Delete a document by ID |
 | [`create_folder(name, parent_id=None)`](/sdk/folders#create-a-folder) | Create a new folder |
 | [`list_folders(parent_id=None)`](/sdk/folders#list-folders) | List folders |
+| [`push_version(document_id, content)`](/sdk/versioning#push_version) | Push a new version from LLM output |
+| [`push_version_raw(document_id, title, blocks, ...)`](/sdk/versioning#push_version_raw) | Push a version with explicit parameters |
+| [`list_versions(document_id)`](/sdk/versioning#list_versions) | List all versions of a document |
+| [`get_version(document_id, version)`](/sdk/versioning#get_version) | Get a specific version with blocks |
+| [`restore_version(document_id, version)`](/sdk/versioning#restore_version) | Restore a previous version as latest |
 
 ## Error Handling
 
@@ -63,6 +70,7 @@ from surfacedocs import (
     ValidationError,       # Invalid document format
     DocumentNotFoundError, # Document doesn't exist
     FolderNotFoundError,   # Folder doesn't exist
+    VersionNotFoundError,  # Version doesn't exist
 )
 ```
 

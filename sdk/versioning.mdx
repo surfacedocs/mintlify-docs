@@ -1,0 +1,189 @@
+---
+title: Versioning
+description: Push, list, and restore document versions with the Python SDK
+---
+
+# Versioning
+
+SurfaceDocs supports document versioning — push new versions to the same document, view history, and restore previous versions.
+
+This is ideal for recurring reports, living documents, and any pipeline that updates the same document over time.
+
+## push_version()
+
+Push a new version from LLM output. Accepts a JSON string or dict, just like `save()`.
+
+```python
+from surfacedocs import SurfaceDocs
+
+docs = SurfaceDocs()
+
+# First, create the document
+result = docs.save(initial_output)
+document_id = result.id
+
+# Later, push a new version
+version = docs.push_version(document_id, updated_output)
+print(version.version)       # 2
+print(version.version_count)  # 2
+print(version.url)            # same URL, new content
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document to version |
+| `content` | `str` or `dict` | Yes | JSON string or dict with `title` and `blocks` |
+
+**Returns:** [`VersionResult`](#versionresult)
+
+## push_version_raw()
+
+Push a new version with explicit parameters.
+
+```python
+version = docs.push_version_raw(
+    document_id="doc_abc123",
+    title="Daily Sales Report — Feb 14",
+    blocks=[
+        {"type": "heading", "content": "Sales Summary", "metadata": {"level": 1}},
+        {"type": "paragraph", "content": "Total revenue: $42,000"},
+    ],
+    metadata={"generated_at": "2026-02-14", "source": "sales-pipeline"},
+)
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document to version |
+| `title` | `str` | Yes | Document title |
+| `blocks` | `list[dict]` | Yes | List of content blocks |
+| `metadata` | `dict` | No | Document-level metadata |
+
+**Returns:** [`VersionResult`](#versionresult)
+
+## list_versions()
+
+List all versions of a document.
+
+```python
+versions = docs.list_versions("doc_abc123")
+
+for v in versions:
+    print(f"v{v.version}: {v.title} ({v.block_count} blocks, {v.created_at})")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document ID |
+
+**Returns:** `list[VersionSummary]`
+
+## get_version()
+
+Get a specific version with its full content and blocks.
+
+```python
+doc = docs.get_version("doc_abc123", version=1)
+
+print(doc.title)
+for block in doc.blocks:
+    print(f"  [{block.type}] {block.content[:50]}")
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document ID |
+| `version` | `int` | Yes | Version number to retrieve |
+
+**Returns:** [`Document`](/sdk/read-documents) — the document at that version
+
+**Raises:** `VersionNotFoundError` if the version doesn't exist.
+
+## restore_version()
+
+Restore a previous version as the new latest. This creates a new version with the content from the specified version.
+
+```python
+result = docs.restore_version("doc_abc123", version=1)
+print(result.version)        # 4 (new version number)
+print(result.version_count)  # 4
+```
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | `str` | Yes | The document ID |
+| `version` | `int` | Yes | Version number to restore |
+
+**Returns:** [`VersionResult`](#versionresult)
+
+**Raises:** `VersionNotFoundError` if the version doesn't exist.
+
+## VersionResult
+
+Returned by `push_version()`, `push_version_raw()`, and `restore_version()`:
+
+```python
+result.id             # "doc_abc123"
+result.url            # "https://app.surfacedocs.dev/d/doc_abc123"
+result.version        # 3
+result.version_count  # 3
+```
+
+## VersionSummary
+
+Returned by `list_versions()`:
+
+```python
+summary.version      # 1
+summary.title        # "Daily Report — Feb 13"
+summary.block_count  # 5
+summary.created_at   # "2026-02-13T10:00:00Z"
+```
+
+## Examples
+
+### Daily report pipeline
+
+A pipeline that updates the same document every day:
+
+```python
+from surfacedocs import SurfaceDocs, SYSTEM_PROMPT
+
+docs = SurfaceDocs()
+
+REPORT_DOC_ID = "doc_daily_report"
+
+def run_daily_report(llm_output: str):
+    """Push today's report as a new version."""
+    result = docs.push_version(REPORT_DOC_ID, llm_output)
+    print(f"Published v{result.version}: {result.url}")
+    return result
+```
+
+### Checking version history
+
+```python
+versions = docs.list_versions("doc_abc123")
+print(f"{len(versions)} versions found")
+
+for v in versions:
+    print(f"  v{v.version}: {v.title} — {v.created_at}")
+```
+
+### Restoring a previous version
+
+```python
+# Something went wrong with v3, restore v2
+result = docs.restore_version("doc_abc123", version=2)
+print(f"Restored to v{result.version}")  # v4 (copy of v2's content)
+```

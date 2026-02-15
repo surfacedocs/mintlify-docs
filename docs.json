@@ -27,6 +27,7 @@
               "sdk/save-documents",
               "sdk/read-documents",
               "sdk/folders",
+              "sdk/versioning",
               "sdk/delete-documents"
             ]
           },
@@ -76,6 +77,15 @@
             "pages": [
               "api-reference/folders/create",
               "api-reference/folders/list"
+            ]
+          },
+          {
+            "group": "Versions",
+            "pages": [
+              "api-reference/versions/push",
+              "api-reference/versions/list",
+              "api-reference/versions/get",
+              "api-reference/versions/restore"
             ]
           }
         ]

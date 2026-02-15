@@ -1,0 +1,71 @@
+---
+title: Push Version
+description: POST /v1/documents/{document_id}/versions
+---
+
+# Push Version
+
+```
+POST /v1/documents/{document_id}/versions
+```
+
+Push a new version of an existing document. The document URL stays the same — viewers always see the latest version.
+
+## Request
+
+### Headers
+
+| Header | Required | Description |
+|--------|----------|-------------|
+| `X-API-Key` | Yes | Your API key |
+| `Content-Type` | Yes | `application/json` |
+
+### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `document_id` | string | Yes | The document ID |
+
+### Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `title` | string | Yes | Document title |
+| `blocks` | array | Yes | Array of content blocks |
+| `blocks[].type` | string | Yes | Block type |
+| `blocks[].content` | string | Yes | Block content |
+| `blocks[].metadata` | object | No | Block metadata |
+| `content_type` | string | No | Default: `"markdown"` |
+| `metadata` | object | No | Document-level metadata |
+
+### Example
+
+```bash
+curl -X POST https://api.surfacedocs.dev/v1/documents/doc_abc123/versions \
+  -H "X-API-Key: sd_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Daily Report — Feb 14",
+    "blocks": [
+      {"type": "heading", "content": "Summary", "metadata": {"level": 1}},
+      {"type": "paragraph", "content": "Revenue: $42,000"}
+    ],
+    "metadata": {"generated_at": "2026-02-14"}
+  }'
+```
+
+## Response
+
+**Status: 201 Created**
+
+```json
+{
+  "id": "doc_abc123",
+  "url": "https://app.surfacedocs.dev/d/doc_abc123",
+  "version": 2,
+  "version_count": 2,
+  "title": "Daily Report — Feb 14",
+  "block_count": 2,
+  "created_at": "2026-02-14T10:30:00Z"
+}
+```
