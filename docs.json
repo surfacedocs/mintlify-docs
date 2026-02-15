@@ -15,7 +15,10 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["index", "quickstart"]
+            "pages": [
+              "index",
+              "quickstart"
+            ]
           },
           {
             "group": "Python SDK",
@@ -38,11 +41,16 @@
           },
           {
             "group": "Document Schema",
-            "pages": ["schema/block-types", "schema/examples"]
+            "pages": [
+              "schema/block-types",
+              "schema/examples"
+            ]
           },
           {
             "group": "Pricing",
-            "pages": ["pricing"]
+            "pages": [
+              "pricing"
+            ]
           }
         ]
       },
@@ -51,7 +59,9 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": ["api-reference/introduction"]
+            "pages": [
+              "api-reference/introduction"
+            ]
           },
           {
             "group": "Documents",
@@ -80,10 +90,6 @@
         }
       ]
     }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
